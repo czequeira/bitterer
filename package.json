@@ -4,7 +4,9 @@
   "description": "A backend framework",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:dev": "nodemon src/playground/index.ts",
+    "test": "mocha",
+    "test:dev": "nodemon --watch . --ext ts --exec \"mocha\""
   },
   "keywords": [
     "backend",
