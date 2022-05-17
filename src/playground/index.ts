@@ -5,4 +5,6 @@ const appCore = new App({
   controllers,
 });
 
+appCore.generateDoc()
+
 export const app = appCore.getApp();

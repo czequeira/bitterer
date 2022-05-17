@@ -8,7 +8,6 @@ export class App {
 
   constructor(private options: AppOptionsInterface) {
     const app = this.run(options);
-    this.createDoc(app, options);
     this.app = app;
   }
 
@@ -29,7 +28,7 @@ export class App {
     }
   }
 
-  createDoc(app: Application, options: AppOptionsInterface): void {
+  generateDoc(url: string = '/api-docs'): void {
     const swaggerUi = swaggerUiExpress;
     const openapi: OpenAPIV3.Document = {
       openapi: '3.0.0',
@@ -41,7 +40,7 @@ export class App {
       },
     };
 
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapi));
+    this.app.use(url, swaggerUi.serve, swaggerUi.setup(openapi));
   }
 
   initialize(options: AppOptionsInterface): Application {
