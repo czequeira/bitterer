@@ -2,9 +2,27 @@ import { RequestHandler } from 'express';
 import { OpenAPIV3 } from 'openapi-types';
 import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
+import { BitterResponse } from './response.class';
 
 export class Route {
-  constructor(private options: RouteOptionsInterface) {}
+  private responses: BitterResponse[] = [];
+
+  constructor(private options: RouteOptionsInterface) {
+    const okResponse = new BitterResponse({ statusCode: options.status });
+    const internalServerErrorResponse = new BitterResponse({
+      statusCode: '500',
+      description: 'Internal Server Error',
+    });
+    this.responses = [okResponse, internalServerErrorResponse];
+  }
+
+  getResponses(): BitterResponse[] {
+    return this.responses;
+  }
+
+  setResponse(response: BitterResponse): void {
+    this.responses.push(response);
+  }
 
   getMethod(): Method {
     return this.options.method;
@@ -27,8 +45,13 @@ export class Route {
   }
 
   getResponsesObject(): OpenAPIV3.ResponsesObject {
-    return {
-      [this.options.status || '200']: { description: 'ok' },
-    };
+    const responsesObject: OpenAPIV3.ResponsesObject = this.responses.reduce(
+      (prev, current) => {
+        prev[current.getStatusCode()] = current.getResponseObject();
+        return prev;
+      },
+      {} as OpenAPIV3.ResponsesObject
+    );
+    return responsesObject;
   }
 }
