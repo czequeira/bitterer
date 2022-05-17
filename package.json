@@ -22,6 +22,7 @@
     "express": "^4.18.1",
     "nodemon": "^2.0.16",
     "openapi-types": "^11.0.0",
+    "prettier": "2.6.2",
     "swagger-ui-express": "^4.4.0",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4"
