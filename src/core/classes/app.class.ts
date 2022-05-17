@@ -30,13 +30,21 @@ export class App {
 
   generateDoc(url: string = '/api-docs'): void {
     const swaggerUi = swaggerUiExpress;
+
+    const { controllers } = this.options;
+    let paths: OpenAPIV3.PathsObject = {};
+
+    controllers.forEach((controller) => {
+        paths = { ...paths, ...controller.getPathsObject() }
+    });
+
     const openapi: OpenAPIV3.Document = {
       openapi: '3.0.0',
       components: {},
-      paths: {},
+      paths,
       info: {
-        title: 'test',
-        version: '0.0.0',
+        title: this.options.title || 'No title',
+        version: this.options.version || '0.0.0',
       },
     };
 

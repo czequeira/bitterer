@@ -1,10 +1,11 @@
 import { RequestHandler } from 'express';
 import { RouteOptionsInterface } from '../interfaces';
+import { Method } from '../types';
 
 export class Route {
   constructor(private options: RouteOptionsInterface) {}
 
-  getMethod(): string {
+  getMethod(): Method {
     return this.options.method;
   }
 

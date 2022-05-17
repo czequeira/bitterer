@@ -6,7 +6,13 @@ const GetUsersRoute = new Route({
   fn: () => 'hola mundo',
 });
 
+const PostUsersRoute = new Route({
+  method: 'post',
+  url: '/users',
+  fn: () => 'posted'
+})
+
 export const UserController = new Controller({
   url: '/users',
-  routes: [GetUsersRoute],
+  routes: [GetUsersRoute, PostUsersRoute],
 });

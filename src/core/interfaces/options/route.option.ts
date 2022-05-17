@@ -1,7 +1,7 @@
-import { Fn } from '../../types';
+import { Fn, Method } from '../../types';
 
 export interface RouteOptionsInterface {
-  method: string;
+  method: Method;
   url: string;
   fn: Fn<any>;
   status?: number;

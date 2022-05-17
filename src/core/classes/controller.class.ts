@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { OpenAPIV3 } from 'openapi-types';
 import { AppException } from '../exceptions';
 import { ControllerOptionsInterface } from '../interfaces';
 
@@ -20,16 +21,31 @@ export class Controller {
     routes.forEach((route) => {
       const method = route.getMethod();
       const url = route.getUrl();
-      if (method === 'get') {
-        router.get(url, route.getRequestHandler());
-      } else {
-        throw new AppException('Method not allowed');
-      }
+      router[method](url, route.getRequestHandler());
     });
     return router;
   }
 
   getRouter(): Router {
     return this.router;
+  }
+
+  getPathsObject(): OpenAPIV3.PathsObject {
+    const { routes, url } = this.options;
+    let paths: OpenAPIV3.PathsObject = {};
+
+    routes.forEach((route) => {
+      let pathItemObject: OpenAPIV3.PathItemObject = {};
+      const method = route.getMethod();
+      const routeUrl = route.getUrl();
+
+      pathItemObject[method] = {
+        responses: {}
+      };
+
+      paths[`${url}${routeUrl}`] = pathItemObject
+    });
+
+    return paths;
   }
 }
