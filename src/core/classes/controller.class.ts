@@ -32,18 +32,17 @@ export class Controller {
 
   getPathsObject(): OpenAPIV3.PathsObject {
     const { routes, url } = this.options;
-    let paths: OpenAPIV3.PathsObject = {};
+    const paths: OpenAPIV3.PathsObject = {};
 
     routes.forEach((route) => {
-      let pathItemObject: OpenAPIV3.PathItemObject = {};
+      const pattern = `${url}${route.getUrl()}`;
+      const pathItemObject: OpenAPIV3.PathItemObject = paths[pattern] || {};
       const method = route.getMethod();
-      const routeUrl = route.getUrl();
-
-      pathItemObject[method] = {
-        responses: {}
+      const operationObject: OpenAPIV3.OperationObject = {
+        responses: {},
       };
-
-      paths[`${url}${routeUrl}`] = pathItemObject
+      pathItemObject[method] = operationObject;
+      paths[pattern] = pathItemObject
     });
 
     return paths;

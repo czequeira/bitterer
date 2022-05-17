@@ -9,8 +9,8 @@ const GetUsersRoute = new Route({
 const PostUsersRoute = new Route({
   method: 'post',
   url: '/users',
-  fn: () => 'posted'
-})
+  fn: () => 'posted',
+});
 
 export const UserController = new Controller({
   url: '/users',
