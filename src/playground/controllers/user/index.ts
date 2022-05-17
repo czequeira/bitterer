@@ -1,8 +1,15 @@
-import { Controller, Route } from '../../../core';
+import { IsString } from 'class-validator';
+import { Controller, Dto, Route } from '../../../core';
+
+class queryDto {
+  @IsString()
+  title: string;
+}
 
 const GetUsersRoute = new Route({
   method: 'get',
   url: '/users',
+  queryDto,
   fn: () => 'hola mundo',
 });
 

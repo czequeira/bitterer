@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import express, { Application } from 'express';
 import swaggerUiExpress from 'swagger-ui-express';
 import { OpenAPIV3 } from 'openapi-types';

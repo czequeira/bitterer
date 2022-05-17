@@ -1,3 +1,5 @@
+import { ClassConstructor } from 'class-transformer';
+import { Dto } from '../../classes';
 import { Fn, Method } from '../../types';
 
 export interface RouteOptionsInterface {
@@ -5,5 +7,5 @@ export interface RouteOptionsInterface {
   url: string;
   fn: Fn<any, any>;
   status?: string;
-  queryDto?: any;
+  queryDto?: ClassConstructor<any>;
 }

@@ -5,6 +5,8 @@
     "rootDir": "./",
     "outDir": "./lib",
     "esModuleInterop": true,
-    "strict": true
+    "strict": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false
   }
 }

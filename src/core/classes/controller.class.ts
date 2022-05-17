@@ -37,7 +37,9 @@ export class Controller {
       const pattern = `${url}${route.getUrl()}`;
       const pathItemObject: OpenAPIV3.PathItemObject = paths[pattern] || {};
       const method = route.getMethod();
+      const parameters: OpenAPIV3.ParameterObject[] = route.getParametersObject()
       const operationObject: OpenAPIV3.OperationObject = {
+        parameters,
         responses: route.getResponsesObject(),
       };
       pathItemObject[method] = operationObject;
