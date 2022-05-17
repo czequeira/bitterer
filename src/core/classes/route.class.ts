@@ -1,4 +1,5 @@
-import { RequestHandler } from 'express';
+import { RequestHandler, Request as Req } from 'express';
+import { validate } from 'class-validator'
 import { OpenAPIV3 } from 'openapi-types';
 import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
@@ -32,13 +33,21 @@ export class Route {
     return this.options.url;
   }
 
+  private async validate(req: Req): Promise<void> {
+    const queryDto = new this.options.queryDto(req.query)
+    const queryErrors = await validate(queryDto)
+    if (queryErrors.length) throw new Error('errores')
+  }
+
   getRequestHandler(): RequestHandler {
     const requestHandler: RequestHandler = async (req, res) => {
       try {
-        const response = await this.options.fn();
+        await this.validate(req)
+        const response = await this.options.fn(req.query);
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
         console.error('manejar esto');
+        res.status(500).json({ message: 'error' })
       }
     };
     return requestHandler;
