@@ -1,1 +1,1 @@
-export { GetFn, Fn } from "./fn.type";
+export { GetFn, Fn } from './fn.type';

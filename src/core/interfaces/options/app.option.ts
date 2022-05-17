@@ -1,4 +1,4 @@
-import { Controller } from "../../classes";
+import { Controller } from '../../classes';
 
 export interface AppOptionsInterface {
   controllers: Controller[];

@@ -1,6 +1,6 @@
-import { Router } from "express";
-import { AppException } from "../exceptions";
-import { ControllerOptionsInterface } from "../interfaces";
+import { Router } from 'express';
+import { AppException } from '../exceptions';
+import { ControllerOptionsInterface } from '../interfaces';
 
 export class Controller {
   private router: Router;
@@ -20,10 +20,10 @@ export class Controller {
     routes.forEach((route) => {
       const method = route.getMethod();
       const url = route.getUrl();
-      if (method === "get") {
+      if (method === 'get') {
         router.get(url, route.getRequestHandler());
       } else {
-        throw new AppException("Method not allowed");
+        throw new AppException('Method not allowed');
       }
     });
     return router;

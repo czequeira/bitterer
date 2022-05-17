@@ -1,3 +1,3 @@
-import { UserController } from "./user";
+import { UserController } from './user';
 
 export const controllers = [UserController];

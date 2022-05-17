@@ -1,7 +1,7 @@
-import express, { Application } from "express";
-import swaggerUiExpress from "swagger-ui-express";
-import { OpenAPIV3 } from "openapi-types";
-import { AppOptionsInterface } from "../interfaces";
+import express, { Application } from 'express';
+import swaggerUiExpress from 'swagger-ui-express';
+import { OpenAPIV3 } from 'openapi-types';
+import { AppOptionsInterface } from '../interfaces';
 
 export class App {
   private app: Application;
@@ -24,7 +24,7 @@ export class App {
       return app;
     } catch (error) {
       // TODO: cambiar el console
-      console.error("initialize error", error);
+      console.error('initialize error', error);
       throw error;
     }
   }
@@ -32,16 +32,16 @@ export class App {
   createDoc(app: Application, options: AppOptionsInterface): void {
     const swaggerUi = swaggerUiExpress;
     const openapi: OpenAPIV3.Document = {
-      openapi: "3.0.0",
+      openapi: '3.0.0',
       components: {},
       paths: {},
       info: {
-        title: "test",
-        version: "0.0.0",
+        title: 'test',
+        version: '0.0.0',
       },
     };
 
-    app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openapi));
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapi));
   }
 
   initialize(options: AppOptionsInterface): Application {

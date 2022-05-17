@@ -1,5 +1,5 @@
-import { RequestHandler } from "express";
-import { RouteOptionsInterface } from "../interfaces";
+import { RequestHandler } from 'express';
+import { RouteOptionsInterface } from '../interfaces';
 
 export class Route {
   constructor(private options: RouteOptionsInterface) {}
@@ -18,7 +18,7 @@ export class Route {
         const response = await this.options.fn();
         res.status(this.options.status || 200).json(response);
       } catch (error) {
-        console.error("manejar esto");
+        console.error('manejar esto');
       }
     };
     return requestHandler;
