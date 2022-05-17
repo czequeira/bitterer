@@ -1,6 +1,6 @@
-import { Route } from "../../classes"
+import { Route } from "../../classes";
 
 export interface ControllerOptionsInterface {
-  url: string
-  routes: Route[]
+  url: string;
+  routes: Route[];
 }
