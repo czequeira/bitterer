@@ -1,4 +1,5 @@
 import { RequestHandler } from 'express';
+import { OpenAPIV3 } from 'openapi-types';
 import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
 
@@ -17,11 +18,17 @@ export class Route {
     const requestHandler: RequestHandler = async (req, res) => {
       try {
         const response = await this.options.fn();
-        res.status(this.options.status || 200).json(response);
+        res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
         console.error('manejar esto');
       }
     };
     return requestHandler;
+  }
+
+  getResponsesObject(): OpenAPIV3.ResponsesObject {
+    return {
+      [this.options.status || '200']: { description: 'ok' },
+    };
   }
 }

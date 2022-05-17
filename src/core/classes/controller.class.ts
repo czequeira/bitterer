@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { OpenAPIV3 } from 'openapi-types';
-import { AppException } from '../exceptions';
 import { ControllerOptionsInterface } from '../interfaces';
 
 export class Controller {
@@ -39,7 +38,7 @@ export class Controller {
       const pathItemObject: OpenAPIV3.PathItemObject = paths[pattern] || {};
       const method = route.getMethod();
       const operationObject: OpenAPIV3.OperationObject = {
-        responses: {},
+        responses: route.getResponsesObject(),
       };
       pathItemObject[method] = operationObject;
       paths[pattern] = pathItemObject
