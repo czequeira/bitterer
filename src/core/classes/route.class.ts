@@ -6,7 +6,7 @@ import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
 import { BitterResponse } from './response.class';
 import { BadRequestException } from '../exceptions';
-import { ParameterObject, ResponsesObject } from 'openapi3-ts';
+import { ParameterObject, RequestBodyObject, ResponsesObject } from 'openapi3-ts';
 
 export class Route {
   private responses: BitterResponse[] = [];
@@ -90,5 +90,14 @@ export class Route {
       name: i,
       in: 'query',
     }));
+  }
+
+  getRequestBodyObject(): RequestBodyObject {
+    const { bodyDto } = this.options;
+    if (!bodyDto) return { content: {} };
+    const jsonSchema = targetConstructorToSchema(bodyDto);
+    return {
+      content: { dto: { schema: jsonSchema }}
+    }
   }
 }

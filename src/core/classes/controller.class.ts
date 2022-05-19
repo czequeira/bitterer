@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { OperationObject, ParameterObject, PathItemObject, PathsObject } from 'openapi3-ts';
+import { OperationObject, ParameterObject, PathItemObject, PathsObject, RequestBodyObject } from 'openapi3-ts';
 import { ControllerOptionsInterface } from '../interfaces';
 
 export class Controller {
@@ -38,9 +38,12 @@ export class Controller {
       const pathItemObject: PathItemObject = paths[pattern] || {};
       const method = route.getMethod();
       const parameters: ParameterObject[] = route.getParametersObject()
+      const requestBody: RequestBodyObject | undefined = ['post', 'put'].includes(method) ? route.getRequestBodyObject() : undefined
+      // TODO: poner el body y los parametros solo si es necesario
       const operationObject: OperationObject = {
         responses: route.getResponsesObject(),
         parameters,
+        requestBody,
       };
       pathItemObject[method] = operationObject;
       paths[pattern] = pathItemObject

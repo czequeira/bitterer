@@ -22,6 +22,7 @@ const GetUsersRoute = new Route({
 const PostUsersRoute = new Route({
   method: 'post',
   url: '/users',
+  bodyDto: queryDto,
   fn: () => 'posted',
 });
 
