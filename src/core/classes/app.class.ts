@@ -5,28 +5,31 @@ import swaggerUiExpress from 'swagger-ui-express';
 import { AppOptionsInterface } from '../interfaces';
 import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
+import { LoggerOptions } from 'winston';
+import { Logger } from './logger.class';
 
 export class App {
   private app: Application;
+  private logger: Logger;
 
   constructor(private options: AppOptionsInterface) {
+    this.logger = new Logger(options.logger || {})
     const app = this.run(options);
     this.app = app;
   }
 
   run(options: AppOptionsInterface): Application {
+    const child = this.logger.getChild()
     try {
       const app = this.initialize(options);
       const port = options.port || 3000;
 
       app.listen(port, () => {
-        // TODO: cambiar el console
-        console.log(`TypeScript with Express http://localhost:${port}/`);
+        child.info(`http://localhost:${port}`)
       });
       return app;
     } catch (error) {
-      // TODO: cambiar el console
-      console.error('initialize error', error);
+      child.error('initialize error', error);
       throw error;
     }
   }
@@ -57,7 +60,7 @@ export class App {
     app.use(helmet());
     const { controllers } = options;
     controllers.forEach((controller) => {
-      app.use(controller.getUrl(), controller.getRouter());
+      app.use(controller.getUrl(), controller.getRouter(this.logger));
     });
     return app;
   }

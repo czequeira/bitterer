@@ -11,6 +11,7 @@ import {
   RequestBodyObject,
   ResponsesObject,
 } from 'openapi3-ts';
+import { Logger } from './logger.class';
 
 async function validateDto(
   Dto: ClassConstructor<any> | undefined,
@@ -69,15 +70,15 @@ export class Route {
     return response
   }
 
-  getRequestHandler(): RequestHandler {
+  getRequestHandler(logger: Logger): RequestHandler {
     const requestHandler: RequestHandler = async (req, res) => {
+      const child = logger.getChild()
       try {
         const [query, body] = await this.validate(req);
-        const response = await this.options.fn({ query, body });
+        const response = await this.options.fn({ query, body, logger: child });
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
-        // TODO: poner un log mejor
-        console.log(error)
+        child.error(error)
         if (error instanceof BadRequestException)
           res.status(400).json({ message: error.message });
         else res.status(500).json({ message: 'error' });
