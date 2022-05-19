@@ -1,5 +1,6 @@
 import { IsISO8601, IsUUID, Max } from 'class-validator';
 import { Controller, Route } from '../../../core';
+import { FnParamsInterface } from '../../../core/interfaces';
 
 class queryDto {
   @IsISO8601()
@@ -16,14 +17,14 @@ const GetUsersRoute = new Route({
   method: 'get',
   url: '/users',
   queryDto,
-  fn: ({ query }) => query.date,
+  fn: ({ query }: FnParamsInterface<queryDto, null>) => query.date,
 });
 
 const PostUsersRoute = new Route({
   method: 'post',
   url: '/users',
   bodyDto: queryDto,
-  fn: ({ body }) => body.uuid,
+  fn: ({ body }: FnParamsInterface<null, queryDto>) => body.uuid,
 });
 
 export const UserController = new Controller({

@@ -28,7 +28,7 @@ async function validateDto(
 export class Route {
   private responses: BitterResponse[] = [];
 
-  constructor(private options: RouteOptionsInterface) {
+  constructor(private options: RouteOptionsInterface<any, any, any>) {
     const okResponse = new BitterResponse({ statusCode: options.status });
     const internalServerErrorResponse = new BitterResponse({
       statusCode: '500',

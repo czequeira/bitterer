@@ -1,4 +1,4 @@
-export interface FnParamsInterface {
-  query?: any,
-  body?: any,
+export interface FnParamsInterface<Query, Body> {
+  query: Query,
+  body: Body,
 }

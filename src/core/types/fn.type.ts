@@ -1,3 +1,3 @@
 import { FnParamsInterface } from '../interfaces';
 
-export type Fn<T> = (params: FnParamsInterface) => T | Promise<T>;
+export type Fn<Out, Query, Body> = (params: FnParamsInterface<Query, Body>) => Out | Promise<Out>;
