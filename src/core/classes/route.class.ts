@@ -66,19 +66,19 @@ export class Route {
     const response = await Promise.all([
       validateDto(this.options.queryDto, req.query),
       validateDto(this.options.bodyDto, req.body),
-    ])
-    return response
+    ]);
+    return response;
   }
 
   getRequestHandler(logger: Logger): RequestHandler {
     const requestHandler: RequestHandler = async (req, res) => {
-      const child = logger.getChild()
+      const child = logger.getChild();
       try {
         const [query, body] = await this.validate(req);
         const response = await this.options.fn({ query, body, logger: child });
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
-        child.error(error)
+        child.error(error);
         if (error instanceof BadRequestException)
           res.status(400).json({ message: error.message });
         else res.status(500).json({ message: 'error' });

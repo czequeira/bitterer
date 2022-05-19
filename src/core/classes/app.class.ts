@@ -13,19 +13,19 @@ export class App {
   private logger: Logger;
 
   constructor(private options: AppOptionsInterface) {
-    this.logger = new Logger(options.logger || {})
+    this.logger = new Logger(options.logger || {});
     const app = this.run(options);
     this.app = app;
   }
 
   run(options: AppOptionsInterface): Application {
-    const child = this.logger.getChild()
+    const child = this.logger.getChild();
     try {
       const app = this.initialize(options);
       const port = options.port || 3000;
 
       app.listen(port, () => {
-        child.info(`http://localhost:${port}`)
+        child.info(`http://localhost:${port}`);
       });
       return app;
     } catch (error) {

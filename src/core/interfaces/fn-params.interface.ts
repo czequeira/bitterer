@@ -1,7 +1,7 @@
-import { Logger } from "winston";
+import { Logger } from 'winston';
 
 export interface FnParamsInterface<Query, Body> {
-  query: Query,
-  body: Body,
-  logger: Logger,
+  query: Query;
+  body: Body;
+  logger: Logger;
 }

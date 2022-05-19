@@ -12,8 +12,7 @@ import { Logger } from './logger.class';
 export class Controller {
   private router: Router;
 
-  constructor(private options: ControllerOptionsInterface) {
-  }
+  constructor(private options: ControllerOptionsInterface) {}
 
   getUrl(): string {
     return this.options.url;

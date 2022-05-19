@@ -6,5 +6,5 @@ export interface AppOptionsInterface {
   port?: number;
   title?: string;
   version?: string;
-  logger: LoggerOptions
+  logger: LoggerOptions;
 }
