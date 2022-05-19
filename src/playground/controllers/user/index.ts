@@ -1,5 +1,5 @@
 import { IsISO8601, IsUUID, Max } from 'class-validator';
-import { Controller, Dto, Route } from '../../../core';
+import { Controller, Route } from '../../../core';
 
 class queryDto {
   @IsISO8601()
@@ -23,7 +23,7 @@ const PostUsersRoute = new Route({
   method: 'post',
   url: '/users',
   bodyDto: queryDto,
-  fn: () => 'posted',
+  fn: (_, body: queryDto) => body.uuid,
 });
 
 export const UserController = new Controller({

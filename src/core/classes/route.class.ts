@@ -1,12 +1,29 @@
 import { RequestHandler, Request as Req } from 'express';
-import { plainToInstance } from 'class-transformer';
+import { ClassConstructor, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { targetConstructorToSchema } from 'class-validator-jsonschema';
 import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
 import { BitterResponse } from './response.class';
 import { BadRequestException } from '../exceptions';
-import { ParameterObject, RequestBodyObject, ResponsesObject } from 'openapi3-ts';
+import {
+  ParameterObject,
+  RequestBodyObject,
+  ResponsesObject,
+} from 'openapi3-ts';
+
+async function validateDto(
+  Dto: ClassConstructor<any> | undefined,
+  json: any
+): Promise<any> {
+  if (Dto) {
+    const dto = plainToInstance(Dto, json);
+    const errors = await validate(dto);
+    if (errors.length) throw new BadRequestException(...errors);
+    return dto;
+  }
+  return {};
+}
 
 export class Route {
   private responses: BitterResponse[] = [];
@@ -45,23 +62,22 @@ export class Route {
   }
 
   private async validate(req: Req): Promise<Array<any>> {
-    const dtos = [];
-    if (this.options.queryDto) {
-      const queryDto = plainToInstance(this.options.queryDto, req.query);
-      const queryErrors = await validate(queryDto);
-      if (queryErrors.length) throw new BadRequestException(...queryErrors);
-      dtos.push(queryDto);
-    } else dtos.push({});
-    return dtos;
+    const response = await Promise.all([
+      validateDto(this.options.queryDto, req.query),
+      validateDto(this.options.bodyDto, req.body),
+    ])
+    return response
   }
 
   getRequestHandler(): RequestHandler {
     const requestHandler: RequestHandler = async (req, res) => {
       try {
-        const [queryDto] = await this.validate(req);
-        const response = await this.options.fn(queryDto);
+        const [queryDto, bodyDto] = await this.validate(req);
+        const response = await this.options.fn(queryDto, bodyDto);
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
+        // TODO: poner un log mejor
+        console.log(error)
         if (error instanceof BadRequestException)
           res.status(400).json({ message: error.message });
         else res.status(500).json({ message: 'error' });
@@ -97,7 +113,7 @@ export class Route {
     if (!bodyDto) return { content: {} };
     const jsonSchema = targetConstructorToSchema(bodyDto);
     return {
-      content: { dto: { schema: jsonSchema }}
-    }
+      content: { 'Application/json': { schema: jsonSchema } },
+    };
   }
 }
