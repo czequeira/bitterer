@@ -1,10 +1,15 @@
 import { RequestHandler, Request as Req } from 'express';
 import { plainToInstance } from 'class-transformer';
-import { validate, getFromContainer, getMetadataStorage } from 'class-validator';
+import {
+  validate,
+  getFromContainer,
+  getMetadataStorage,
+} from 'class-validator';
 import { OpenAPIV3 } from 'openapi-types';
 import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
 import { BitterResponse } from './response.class';
+import { BadRequestException } from '../exceptions';
 
 export class Route {
   private responses: BitterResponse[] = [];
@@ -15,7 +20,15 @@ export class Route {
       statusCode: '500',
       description: 'Internal Server Error',
     });
-    this.responses = [okResponse, internalServerErrorResponse];
+    const badRequestResponse = new BitterResponse({
+      statusCode: '400',
+      description: 'Bad Request',
+    });
+    this.responses = [
+      okResponse,
+      internalServerErrorResponse,
+      badRequestResponse,
+    ];
   }
 
   getResponses(): BitterResponse[] {
@@ -37,35 +50,36 @@ export class Route {
   getParametersObject(): OpenAPIV3.ParameterObject[] {
     const parametersObject: OpenAPIV3.ParameterObject[] = [];
     if (this.options.queryDto) {
-      const a = getFromContainer(this.options.queryDto)
+      const a = getFromContainer(this.options.queryDto);
       // TODO: work in progress
-      console.log(a)
-      const params = this.options.queryDto
-      console.log(params)
+      console.log(a);
+      const params = this.options.queryDto;
+      console.log(params);
     }
     return parametersObject;
   }
 
-  private async validate(req: Req): Promise<void> {
+  private async validate(req: Req): Promise<Array<any>> {
+    const dtos = [];
     if (this.options.queryDto) {
       const queryDto = plainToInstance(this.options.queryDto, req.query);
       const queryErrors = await validate(queryDto);
-      // TODO: complete this
-      console.log(queryErrors)
-      if (queryErrors.length) throw new Error('errores');
-    }
+      if (queryErrors.length) throw new BadRequestException(...queryErrors);
+      dtos.push(queryDto);
+    } else dtos.push({});
+    return dtos;
   }
 
   getRequestHandler(): RequestHandler {
     const requestHandler: RequestHandler = async (req, res) => {
       try {
-        await this.validate(req);
+        const [queryDto] = await this.validate(req);
         const response = await this.options.fn(req.query);
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
-        // TODO: complete this to
-        console.error('manejar esto');
-        res.status(500).json({ message: 'error' });
+        if (error instanceof BadRequestException)
+          res.status(400).json({ message: error.message });
+        else res.status(500).json({ message: 'error' });
       }
     };
     return requestHandler;

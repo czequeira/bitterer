@@ -1,16 +1,16 @@
-import { IsString } from 'class-validator';
+import { IsISO8601, Max } from 'class-validator';
 import { Controller, Dto, Route } from '../../../core';
 
 class queryDto {
-  @IsString()
-  title: string;
+  @IsISO8601()
+  date: string;
 }
 
 const GetUsersRoute = new Route({
   method: 'get',
   url: '/users',
   queryDto,
-  fn: () => 'hola mundo',
+  fn: (query: queryDto) => query.date,
 });
 
 const PostUsersRoute = new Route({
