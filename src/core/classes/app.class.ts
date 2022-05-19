@@ -3,6 +3,8 @@ import { OpenAPIObject, PathsObject } from 'openapi3-ts';
 import express, { Application } from 'express';
 import swaggerUiExpress from 'swagger-ui-express';
 import { AppOptionsInterface } from '../interfaces';
+import * as bodyParser from 'body-parser';
+import helmet from 'helmet';
 
 export class App {
   private app: Application;
@@ -51,6 +53,8 @@ export class App {
 
   initialize(options: AppOptionsInterface): Application {
     const app = express();
+    app.use(bodyParser.json());
+    app.use(helmet());
     const { controllers } = options;
     controllers.forEach((controller) => {
       app.use(controller.getUrl(), controller.getRouter());
