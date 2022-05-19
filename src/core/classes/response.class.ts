@@ -1,8 +1,8 @@
-import { OpenAPIV3 } from 'openapi-types';
+import { ResponseObject } from 'openapi3-ts';
 import { ResponseOptionsInterface } from '../interfaces';
 
 export class BitterResponse {
-  private responseObject: OpenAPIV3.ResponseObject;
+  private responseObject: ResponseObject;
   private statusCode: string;
 
   constructor(private options: ResponseOptionsInterface) {
@@ -16,7 +16,7 @@ export class BitterResponse {
     return this.statusCode;
   }
 
-  getResponseObject(): OpenAPIV3.ResponseObject {
+  getResponseObject(): ResponseObject {
     return this.responseObject;
   }
 }

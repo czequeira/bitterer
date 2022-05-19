@@ -8,4 +8,5 @@ export interface RouteOptionsInterface {
   fn: Fn<any, any>;
   status?: string;
   queryDto?: ClassConstructor<any>;
+  bodyDto?: ClassConstructor<any>;
 }

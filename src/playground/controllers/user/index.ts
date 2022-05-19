@@ -1,9 +1,15 @@
-import { IsISO8601, Max } from 'class-validator';
+import { IsISO8601, IsUUID, Max } from 'class-validator';
 import { Controller, Dto, Route } from '../../../core';
 
 class queryDto {
   @IsISO8601()
   date: string;
+
+  @IsISO8601()
+  date2: string;
+
+  @IsUUID()
+  uuid: string;
 }
 
 const GetUsersRoute = new Route({

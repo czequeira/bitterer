@@ -1,7 +1,7 @@
 import 'reflect-metadata';
+import { OpenAPIObject, PathsObject } from 'openapi3-ts';
 import express, { Application } from 'express';
 import swaggerUiExpress from 'swagger-ui-express';
-import { OpenAPIV3 } from 'openapi-types';
 import { AppOptionsInterface } from '../interfaces';
 
 export class App {
@@ -33,20 +33,17 @@ export class App {
     const swaggerUi = swaggerUiExpress;
 
     const { controllers } = this.options;
-    let paths: OpenAPIV3.PathsObject = {};
+    const paths: PathsObject = controllers.reduce((prev, current) => {
+      return { ...prev, ...current.getPathsObject() };
+    }, {} as PathsObject);
 
-    controllers.forEach((controller) => {
-        paths = { ...paths, ...controller.getPathsObject() }
-    });
-
-    const openapi: OpenAPIV3.Document = {
+    const openapi: OpenAPIObject = {
       openapi: '3.0.0',
-      components: {},
-      paths,
       info: {
-        title: this.options.title || 'No title',
-        version: this.options.version || '0.0.0',
+        title: this.options.title || 'no title',
+        version: this.options.version || '0.0.1',
       },
+      paths,
     };
 
     this.app.use(url, swaggerUi.serve, swaggerUi.setup(openapi));

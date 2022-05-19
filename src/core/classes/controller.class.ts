@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { OpenAPIV3 } from 'openapi-types';
+import { OperationObject, ParameterObject, PathItemObject, PathsObject } from 'openapi3-ts';
 import { ControllerOptionsInterface } from '../interfaces';
 
 export class Controller {
@@ -29,18 +29,18 @@ export class Controller {
     return this.router;
   }
 
-  getPathsObject(): OpenAPIV3.PathsObject {
+  getPathsObject(): PathsObject {
     const { routes, url } = this.options;
-    const paths: OpenAPIV3.PathsObject = {};
+    const paths: PathsObject = {};
 
     routes.forEach((route) => {
       const pattern = `${url}${route.getUrl()}`;
-      const pathItemObject: OpenAPIV3.PathItemObject = paths[pattern] || {};
+      const pathItemObject: PathItemObject = paths[pattern] || {};
       const method = route.getMethod();
-      const parameters: OpenAPIV3.ParameterObject[] = route.getParametersObject()
-      const operationObject: OpenAPIV3.OperationObject = {
-        parameters,
+      const parameters: ParameterObject[] = route.getParametersObject()
+      const operationObject: OperationObject = {
         responses: route.getResponsesObject(),
+        parameters,
       };
       pathItemObject[method] = operationObject;
       paths[pattern] = pathItemObject

@@ -1,15 +1,12 @@
 import { RequestHandler, Request as Req } from 'express';
 import { plainToInstance } from 'class-transformer';
-import {
-  validate,
-  getFromContainer,
-  getMetadataStorage,
-} from 'class-validator';
-import { OpenAPIV3 } from 'openapi-types';
+import { validate } from 'class-validator';
+import { targetConstructorToSchema } from 'class-validator-jsonschema';
 import { RouteOptionsInterface } from '../interfaces';
 import { Method } from '../types';
 import { BitterResponse } from './response.class';
 import { BadRequestException } from '../exceptions';
+import { ParameterObject, ResponsesObject } from 'openapi3-ts';
 
 export class Route {
   private responses: BitterResponse[] = [];
@@ -47,18 +44,6 @@ export class Route {
     return this.options.url;
   }
 
-  getParametersObject(): OpenAPIV3.ParameterObject[] {
-    const parametersObject: OpenAPIV3.ParameterObject[] = [];
-    if (this.options.queryDto) {
-      const a = getFromContainer(this.options.queryDto);
-      // TODO: work in progress
-      console.log(a);
-      const params = this.options.queryDto;
-      console.log(params);
-    }
-    return parametersObject;
-  }
-
   private async validate(req: Req): Promise<Array<any>> {
     const dtos = [];
     if (this.options.queryDto) {
@@ -74,7 +59,7 @@ export class Route {
     const requestHandler: RequestHandler = async (req, res) => {
       try {
         const [queryDto] = await this.validate(req);
-        const response = await this.options.fn(req.query);
+        const response = await this.options.fn(queryDto);
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
         if (error instanceof BadRequestException)
@@ -85,14 +70,25 @@ export class Route {
     return requestHandler;
   }
 
-  getResponsesObject(): OpenAPIV3.ResponsesObject {
-    const responsesObject: OpenAPIV3.ResponsesObject = this.responses.reduce(
+  getResponsesObject(): ResponsesObject {
+    const responsesObject: ResponsesObject = this.responses.reduce(
       (prev, current) => {
         prev[current.getStatusCode()] = current.getResponseObject();
         return prev;
       },
-      {} as OpenAPIV3.ResponsesObject
+      {} as ResponsesObject
     );
     return responsesObject;
+  }
+
+  getParametersObject(): ParameterObject[] {
+    const { queryDto } = this.options;
+    if (!queryDto) return [];
+    const jsonSchema = targetConstructorToSchema(queryDto);
+    if (!jsonSchema.properties) return [];
+    return Object.keys(jsonSchema.properties).map((i) => ({
+      name: i,
+      in: 'query',
+    }));
   }
 }
