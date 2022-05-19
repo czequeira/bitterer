@@ -16,14 +16,14 @@ const GetUsersRoute = new Route({
   method: 'get',
   url: '/users',
   queryDto,
-  fn: (query: queryDto) => query.date,
+  fn: ({ query }) => query.date,
 });
 
 const PostUsersRoute = new Route({
   method: 'post',
   url: '/users',
   bodyDto: queryDto,
-  fn: (_, body: queryDto) => body.uuid,
+  fn: ({ body }) => body.uuid,
 });
 
 export const UserController = new Controller({

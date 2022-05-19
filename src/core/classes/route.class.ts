@@ -72,8 +72,8 @@ export class Route {
   getRequestHandler(): RequestHandler {
     const requestHandler: RequestHandler = async (req, res) => {
       try {
-        const [queryDto, bodyDto] = await this.validate(req);
-        const response = await this.options.fn(queryDto, bodyDto);
+        const [query, body] = await this.validate(req);
+        const response = await this.options.fn({ query, body });
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
         // TODO: poner un log mejor
