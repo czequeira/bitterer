@@ -11,7 +11,7 @@ import {
   RequestBodyObject,
   ResponsesObject,
 } from 'openapi3-ts';
-import { Logger } from './logger.class';
+import { Logger } from 'winston';
 
 async function validateDto(
   Dto: ClassConstructor<any> | undefined,
@@ -74,12 +74,12 @@ export class Route {
     return response;
   }
 
-  getRequestHandler(logger: Logger): RequestHandler {
+  getRequestHandler(): RequestHandler {
     const requestHandler: RequestHandler = async (req, res, next) => {
-      const child = logger.getChild();
       try {
+        const logger: Logger = res.locals.logger
         const [query, body] = await this.validate(req);
-        const response = await this.options.fn({ query, body, logger: child, locals: res.locals });
+        const response = await this.options.fn({ query, body, logger, locals: res.locals });
         res.status(parseInt(this.options.status || '200')).json(response);
       } catch (error) {
         next(error)

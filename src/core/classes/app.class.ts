@@ -7,6 +7,8 @@ import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { Logger } from './logger.class';
 import { BadRequestException } from '../exceptions';
+import { addLogger } from '../middlewares';
+import { Logger as LoggerWinston } from 'winston'
 
 export class App {
   private app: Application;
@@ -35,7 +37,9 @@ export class App {
   }
 
   private getErrorHandler(): ErrorRequestHandler {
-    return (err, req, res, _) => {
+    return (err, _, res, __) => {
+      const logger: LoggerWinston = res.locals.logger
+      logger.error(err)
       if (err instanceof BadRequestException)
         res.status(400).json({ message: err.message });
       else res.status(500).json({ message: 'error' });
@@ -66,9 +70,10 @@ export class App {
     const app = express();
     app.use(bodyParser.json());
     app.use(helmet());
+    app.use(addLogger(this.logger))
     const { controllers } = options;
     controllers.forEach((controller) => {
-      app.use(controller.getUrl(), controller.getRouter(this.logger));
+      app.use(controller.getUrl(), controller.getRouter());
     });
     app.use(this.getErrorHandler())
     return app;

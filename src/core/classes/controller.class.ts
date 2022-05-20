@@ -18,7 +18,7 @@ export class Controller {
     return this.options.url;
   }
 
-  getRouter(logger: Logger): Router {
+  getRouter(): Router {
     const router = Router();
     const { routes } = this.options;
 
@@ -26,7 +26,7 @@ export class Controller {
       const middlewares = route.getMiddlewares()
       const method = route.getMethod();
       const url = route.getUrl();
-      router[method](url, ...middlewares , route.getRequestHandler(logger));
+      router[method](url, ...middlewares , route.getRequestHandler());
     });
     return router;
   }

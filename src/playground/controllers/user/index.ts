@@ -28,7 +28,10 @@ const PostUsersRoute = new Route({
     res.locals.a = { a: 123 }
     next()
   }],
-  fn: ({ locals }: FnParamsInterface<null, queryDto>) => locals.a,
+  fn: ({ locals, logger }: FnParamsInterface<null, queryDto>) => {
+    logger.info('FUNCIONAAAAAAAAAAAAA')
+    return locals.a
+  },
 });
 
 export const UserController = new Controller({
