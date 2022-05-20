@@ -1,11 +1,12 @@
 import 'reflect-metadata';
 import { OpenAPIObject, PathsObject } from 'openapi3-ts';
-import express, { Application } from 'express';
+import express, { Application, ErrorRequestHandler } from 'express';
 import swaggerUiExpress from 'swagger-ui-express';
 import { AppOptionsInterface } from '../interfaces';
 import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { Logger } from './logger.class';
+import { BadRequestException } from '../exceptions';
 
 export class App {
   private app: Application;
@@ -30,6 +31,14 @@ export class App {
     } catch (error) {
       child.error('initialize error', error);
       throw error;
+    }
+  }
+
+  private getErrorHandler(): ErrorRequestHandler {
+    return (err, req, res, _) => {
+      if (err instanceof BadRequestException)
+        res.status(400).json({ message: err.message });
+      else res.status(500).json({ message: 'error' });
     }
   }
 
@@ -61,6 +70,7 @@ export class App {
     controllers.forEach((controller) => {
       app.use(controller.getUrl(), controller.getRouter(this.logger));
     });
+    app.use(this.getErrorHandler())
     return app;
   }
 

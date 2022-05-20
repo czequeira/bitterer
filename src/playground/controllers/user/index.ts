@@ -24,7 +24,11 @@ const PostUsersRoute = new Route({
   method: 'post',
   url: '/users',
   bodyDto: queryDto,
-  fn: ({ body }: FnParamsInterface<null, queryDto>) => body.uuid,
+  middlewares: [(_, res, next) => {
+    res.locals.a = { a: 123 }
+    next()
+  }],
+  fn: ({ locals }: FnParamsInterface<null, queryDto>) => locals.a,
 });
 
 export const UserController = new Controller({
