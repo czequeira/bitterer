@@ -7,7 +7,7 @@ import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
 import { Logger } from './logger.class';
 import { BadRequestException } from '../exceptions';
-import { addLogger } from '../middlewares';
+import { addLogger, httpLogger } from '../middlewares';
 import { Logger as LoggerWinston } from 'winston'
 
 export class App {
@@ -71,6 +71,7 @@ export class App {
     app.use(bodyParser.json());
     app.use(helmet());
     app.use(addLogger(this.logger))
+    app.use(httpLogger)
     const { controllers } = options;
     controllers.forEach((controller) => {
       app.use(controller.getUrl(), controller.getRouter());
