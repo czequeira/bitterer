@@ -23,9 +23,10 @@ export class Controller {
     const { routes } = this.options;
 
     routes.forEach((route) => {
+      const middlewares = route.getMiddlewares()
       const method = route.getMethod();
       const url = route.getUrl();
-      router[method](url, route.getRequestHandler(logger));
+      router[method](url, ...middlewares , route.getRequestHandler(logger));
     });
     return router;
   }

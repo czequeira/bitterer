@@ -50,6 +50,10 @@ export class Route {
     return this.responses;
   }
 
+  getMiddlewares(): RequestHandler[] {
+    return this.options.middlewares || []
+  }
+
   setResponse(response: BitterResponse): void {
     this.responses.push(response);
   }

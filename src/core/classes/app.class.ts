@@ -5,7 +5,6 @@ import swaggerUiExpress from 'swagger-ui-express';
 import { AppOptionsInterface } from '../interfaces';
 import * as bodyParser from 'body-parser';
 import helmet from 'helmet';
-import { LoggerOptions } from 'winston';
 import { Logger } from './logger.class';
 
 export class App {
