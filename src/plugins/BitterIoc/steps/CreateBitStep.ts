@@ -2,8 +2,7 @@ import { IBitFactory, ICreateBitStep } from "../types";
 
 export class CreateBitStep implements ICreateBitStep {
   execute<T>(factory: IBitFactory<T>): T {
-    // TODO: do something whith the args
-    const bit = factory.factory() as T
+    const bit = new factory.class(factory.args)
     return bit
   }
 }
