@@ -9,5 +9,5 @@ export interface IGetBitFactoryStep {
 }
 
 export interface ICreateBitStep {
-  execute<T>(factory: IBitFactory<T>): T
+  execute<T>(factory: IBitFactory<T>, args: unknown[]): T
 }

@@ -1,6 +1,8 @@
-type Constructor<T> = new (...args: unknown[]) => T
+import { IBitArg } from "./IBitArg"
 
-export interface IBitFactory<T, args = unknown[]> {
+type Constructor<T> = new (...args: any[]) => T
+
+export interface IBitFactory<T, args = IBitArg[]> {
   scope: 'singleton' | 'prototype'
   args: args
   class: Constructor<T>

@@ -1,10 +1,7 @@
-import { Teacher } from "./Teacher";
-
-export class Student {
+export class Teacher {
   constructor(
     private name: string,
     private age: number,
-    private teacher: Teacher,
   ) {}
 
   getName() {
@@ -13,9 +10,5 @@ export class Student {
 
   getAge() {
     return this.age
-  }
-
-  getTeacher() {
-    return this.teacher
   }
 }

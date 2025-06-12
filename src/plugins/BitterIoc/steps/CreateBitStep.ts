@@ -1,9 +1,8 @@
 import { IBitFactory, ICreateBitStep } from "../types";
 
 export class CreateBitStep implements ICreateBitStep {
-  execute<T>(factory: IBitFactory<T>): T {
-    console.log(`Creating the bit ${factory.class.name}`)
-    const bit = new factory.class(factory.args)
+  execute<T>(factory: IBitFactory<T>, args: unknown[]): T {
+    const bit = new factory.class(...args)
     return bit
   }
 }

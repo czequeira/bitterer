@@ -8,7 +8,6 @@ export class BitterIoc implements IBitterIoc {
   private getBitFlow: GetBitFlow
 
   constructor() {
-    console.log('contructor of BitterIoc')
     this.context = new BitterIocContext()
     this.getBitFlow = new GetBitFlow(
       new CreateBitStep(),

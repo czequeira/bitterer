@@ -1,27 +1,16 @@
 import { BitterIoc } from "../../plugins";
-import { StudentConfig } from "./StudentConfig";
-import { StudentInterface } from "./StudentInterface";
+import { config } from "./config";
+import { Student } from "./Student";
 
-const context = new BitterIoc()
-context.init(StudentConfig)
+const bitter = new BitterIoc()
+bitter.init(config)
 
-console.log('[MAIN] before get student')
-const student = context.getBit<StudentInterface>('student')
+const student = bitter.getBit<Student>('student')
 
-student.studing()
+console.log(student.getName())
+console.log(student.getAge())
 
-console.log('[MAIN] before get java student')
-const javaStudent = context.getBit<StudentInterface>('javaStudent')
+console.log('================')
 
-javaStudent.studing()
-
-console.log('[MAIN] before get student')
-const student2 = context.getBit<StudentInterface>('student')
-
-student2.studing()
-
-console.log('[MAIN] before get java student')
-const javaStudent2 = context.getBit<StudentInterface>('javaStudent')
-
-javaStudent2.studing()
-
+console.log(student.getTeacher().getName())
+console.log(student.getTeacher().getAge())
