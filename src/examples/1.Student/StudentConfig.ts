@@ -2,7 +2,7 @@ import { IBitFactoryStore } from "../../plugins";
 import { JavaStudent } from "./JavaStudent";
 import { Student } from "./Student";
 
-export const StudentContext: IBitFactoryStore = {
+export const StudentConfig: IBitFactoryStore = {
   student: {
     args: [],
     class: Student,
