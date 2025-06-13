@@ -1,4 +1,4 @@
-import { IBitFactoryStore } from "../../plugins";
+import { IBitFactoryStore } from "../../core";
 import { Student } from "./Student";
 import { Teacher } from "./Teacher";
 

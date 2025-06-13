@@ -1,4 +1,4 @@
-import { IBitFactoryStore } from "../../plugins";
+import { IBitFactoryStore } from "../../core";
 import { Chinese } from "./Chinese";
 import { ConcreteToolA } from "./ConcreteToolA";
 import { ConcreteToolB } from "./ConcreteToolB";

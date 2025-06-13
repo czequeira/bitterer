@@ -1,4 +1,4 @@
-import { IBitFactoryStore } from "../../plugins";
+import { IBitFactoryStore } from "../../core";
 import { User } from "./User";
 
 export const config: IBitFactoryStore = {

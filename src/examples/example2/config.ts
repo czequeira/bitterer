@@ -1,4 +1,4 @@
-import { IBitFactoryStore } from "../../plugins";
+import { IBitFactoryStore } from "../../core";
 import { American } from "./American";
 import { Chinese } from "./Chinese";
 
