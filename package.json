@@ -14,6 +14,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@types/node": "^24.0.4",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "fast-glob": "^3.3.3",
+    "glob": "^11.0.3",
+    "path": "^0.12.7",
+    "reflect-metadata": "^0.2.2"
   }
 }
