@@ -8,7 +8,11 @@ export class GetBitFlow implements IGetBitFlow {
     public getBitFactoryStep: IGetBitFactoryStep,
   ) { }
 
-  execute<T>(context: IBitterIocContext, name: string): T {
+  execute<T>(
+    context: IBitterIocContext,
+    name: string,
+    namesInProcess: string[] = []
+  ): T {
     // getting the bit from cache
     let bit = this.searchBitInCacheStep.execute<T>(context, name)
     if (bit) return bit
@@ -18,7 +22,14 @@ export class GetBitFlow implements IGetBitFlow {
 
     // search the args
     const args: unknown[] = factory.args.map(i => {
-      if (i.ref) return this.execute(context, i.ref)
+      if (i.ref) {
+        if (namesInProcess.includes(name)) {
+          return new Proxy({}, {
+            get: (_, prop) => this.execute<T>(context, name, [...namesInProcess])
+          });
+        }
+        return this.execute(context, i.ref, [...namesInProcess, name])
+      }
       return i.value
     })
 

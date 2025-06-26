@@ -21,6 +21,10 @@ export class BitterIoc implements IBitterIoc {
     this.context.factoryStore = bitFactoryStore
   }
 
+  register(partialStore: IBitFactoryStore): void {
+    this.context.factoryStore = {...partialStore}
+  }
+
   getBit<T>(name: string): T {
     return this.getBitFlow.execute<T>(this.context, name)
   }

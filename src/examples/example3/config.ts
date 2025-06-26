@@ -18,7 +18,7 @@ export const config: IBitFactoryStore = {
     scope: 'prototype',
     args: [{
       name: 'tool',
-      ref: 'toolA',
+      ref: 'toolB',
     }],
     class: Chinese,
   },
