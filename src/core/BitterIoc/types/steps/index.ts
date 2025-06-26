@@ -1,2 +1,5 @@
 export * from './IBitCacheSteps'
 export * from './IBitFactorySteps'
+export * from './IVerifyMetadataStep'
+export * from './IRegisterExportedClassStep'
+export * from './IScanFilesStep'
