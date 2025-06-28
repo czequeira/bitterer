@@ -1,4 +1,4 @@
-import { IRegisterExportedClassStep, IScanFilesStep, IScanForBitsFlow, IVerifyMetadataStep } from "../types";
+import { Constructor, IRegisterExportedClassStep, IScanFilesStep, IScanForBitsFlow, IVerifyMetadataStep } from "../types";
 
 export class ScanForBitsFlow implements IScanForBitsFlow {
   constructor(
@@ -15,9 +15,10 @@ export class ScanForBitsFlow implements IScanForBitsFlow {
 
     for (const file of files) {
       try {
-        const module = await import(file);
-        if (this.verifyMetadataStep.execute(module))
-          this.registerExportedClassStep.execute(module);
+        const modules: {[name: string]: Constructor<unknown>} = await import(file);
+        for (const module of Object.values(modules))
+          if (this.verifyMetadataStep.execute(module))
+            this.registerExportedClassStep.execute(module);
       } catch (err: any) {
         console.warn(`No se pudo escanear ${file}:`, err.message);
       }

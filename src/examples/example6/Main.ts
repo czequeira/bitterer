@@ -1,5 +1,5 @@
 import { BitterIoc } from "../../core";
-import { MathService } from "./MathService";
+import { Calculator, MathService } from "./MathService";
 
 class Main {
   private ioc = new BitterIoc()
@@ -7,8 +7,8 @@ class Main {
   async run() {
     await this.ioc.scan()
 
-    const math = this.ioc.getBit<MathService>('mathService')
-    console.log(math.add(2, 3))
+    const calculator = this.ioc.getBit<Calculator>('calculator')
+    console.log(calculator.add(2, 3))
   }
 
 }
