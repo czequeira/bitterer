@@ -1,4 +1,4 @@
-# Bitter  
+# Bitterer  
 **Lightweight IoC Container for TypeScript**  
 *Inspired by Spring, optimized for modern TypeScript apps*
 
@@ -7,7 +7,7 @@
 [![Bundle Size](https://img.shields.io/bundlephobia/min/bitter)](https://bundlephobia.com/package/bitter)
 
 ``` bash
-npm install bitter reflect-metadata
+npm install bitterer reflect-metadata
 ```
 
 ## 📖 Table of Contents
@@ -29,7 +29,7 @@ npm install bitter reflect-metadata
 ## 🛠 Installation
 1. Install package:
 ``` bash
-npm install bitter reflect-metadata
+npm install bitterer reflect-metadata
 ```
 2. Enable decorators in `tsconfig.json`:
 ``` json
@@ -45,7 +45,7 @@ npm install bitter reflect-metadata
 ### 1. Define a Service
 ``` typescript
 // math.service.ts
-import { Bit } from 'bitter';
+import { Bit } from 'bitterer';
 
 @Bit()
 export class MathService {
@@ -58,7 +58,7 @@ export class MathService {
 ### 2. Inject Dependencies
 ``` typescript
 // calculator.service.ts
-import { Bit, Inject } from 'bitter';
+import { Bit, Inject } from 'bitterer';
 
 @Bit()
 export class Calculator {
@@ -75,7 +75,7 @@ export class Calculator {
 ### 3. Bootstrap Application
 ``` typescript
 // main.ts
-import { Bitter } from 'bitter';
+import { Bitter } from 'bitterer';
 
 async function main() {
   const container = new Bitter();
@@ -108,7 +108,7 @@ class Bitter {
 ### Basic Usage
 ``` typescript
 // service.ts
-import { Bit } from 'bitter';
+import { Bit } from 'bitterer';
 
 @Bit()
 export class DataService {
@@ -121,7 +121,7 @@ export class DataService {
 ### Dependency Injection
 ``` typescript
 // controller.ts
-import { Bit, Inject } from 'bitter';
+import { Bit, Inject } from 'bitterer';
 import { DataService } from './service';
 
 @Bit()
@@ -139,7 +139,7 @@ export class AppController {
 ### Application Bootstrap
 ``` typescript
 // main.ts
-import { Bitter } from 'bitter';
+import { Bitter } from 'bitterer';
 import './controller'; // Import files to register decorators
 
 async function startApp() {
