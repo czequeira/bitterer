@@ -1,7 +1,7 @@
 import 'reflect-metadata'
 
-export function Inject(name?: string) {
-  return function (target: Object, _: string | undefined, parameterIndex: number) {
+export function Inject(name: string): ParameterDecorator {
+  return function (target, _, parameterIndex: number) {
     const existingMetadata: any[] = Reflect.getOwnMetadata('bit:inject', target) || [];
 
     existingMetadata.push({

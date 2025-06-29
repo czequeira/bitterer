@@ -1,5 +1,13 @@
 import { GetBitFlow } from "../flows";
-import { CreateBitStep, GetBitFactoryStep, RegisterExportedClassBitStep, ScanFilesStep, SearchBitInCacheStep, StoreBitInCacheStep, VerifyMetadataBitStep } from "../steps";
+import {
+  CreateBitStep,
+  GetBitFactoryStep,
+  RegisterExportedClassBitStep,
+  ScanFilesStep,
+  SearchBitInCacheStep,
+  StoreBitInCacheStep,
+  VerifyMetadataBitStep,
+} from "../steps";
 import { IBitFactoryStore, IBitterIoc } from "../types";
 import { BitterIocContext } from "./BitterIocContext";
 import { ScanForBitsFlow } from "../flows/ScanForBitsFlow";
