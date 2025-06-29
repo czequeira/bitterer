@@ -6,10 +6,21 @@
     "ioc",
     "spring"
   ],
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/czequeira/bitter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/czequeira/bitter/issues"
+  },
+  "homepage": "https://github.com/czequeira/bitter#readme",
+  "license": "MIT",
   "author": "Rozendo",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "peerDependencies": {
+    "reflect-metadata": "^0.2.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
