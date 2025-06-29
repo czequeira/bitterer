@@ -1,1 +1,1 @@
-export * from './IBitterIoc'
+export * from './IBitter'

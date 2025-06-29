@@ -1,5 +1,5 @@
 import 'reflect-metadata'
-import { BitterIoc } from "../core";
+import { Bitter } from "../core";
 import { toLowerCase } from '../../helpers';
 
 export function Bit(
@@ -11,7 +11,7 @@ export function Bit(
 
     Reflect.defineMetadata('bit:config', {name: bitName}, target)
 
-    const ioc = new BitterIoc()
+    const ioc = new Bitter()
 
     ioc.register({
       [bitName]: {

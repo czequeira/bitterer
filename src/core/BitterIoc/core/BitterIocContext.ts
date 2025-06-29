@@ -1,10 +1,10 @@
 import {
   IBitCache,
   IBitFactoryStore,
-  IBitterIocContext,
+  IBitterContext,
 } from "../types";
 
-export class BitterIocContext implements IBitterIocContext {
+export class BitterContext implements IBitterContext {
   bitCache: IBitCache = {}
   factoryStore: IBitFactoryStore = {}
 }

@@ -1,1 +1,1 @@
-export * from './BitterIoc'
+export * from './Bitter'

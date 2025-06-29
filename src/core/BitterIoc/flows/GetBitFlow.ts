@@ -1,4 +1,4 @@
-import { IBitterIocContext, ICreateBitStep, IGetBitFactoryStep, IGetBitFlow, ISearchBitInCacheStep, IStoreBitInCacheStep } from "../types";
+import { IBitterContext, ICreateBitStep, IGetBitFactoryStep, IGetBitFlow, ISearchBitInCacheStep, IStoreBitInCacheStep } from "../types";
 
 export class GetBitFlow implements IGetBitFlow {
   constructor(
@@ -9,7 +9,7 @@ export class GetBitFlow implements IGetBitFlow {
   ) { }
 
   execute<T>(
-    context: IBitterIocContext,
+    context: IBitterContext,
     name: string,
     namesInProcess: string[] = []
   ): T {

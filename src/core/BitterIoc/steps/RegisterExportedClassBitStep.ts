@@ -1,9 +1,9 @@
-import { BitterIoc } from "../core";
+import { Bitter } from "../core";
 import { Constructor, IRegisterExportedClassStep } from "../types";
 
 export class RegisterExportedClassBitStep implements IRegisterExportedClassStep {
   execute(module: Constructor<unknown>): void {
-    const ioc = new BitterIoc()
+    const ioc = new Bitter()
 
     const injections: {parameterIndex: number, name: string}[] = Reflect.getOwnMetadata("bit:inject", module) || [];
     

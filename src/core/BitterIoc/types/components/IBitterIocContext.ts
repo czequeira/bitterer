@@ -1,7 +1,7 @@
 import { IBitCache } from "./IBitCache";
 import { IBitFactoryStore } from "./IBitFactoryStore";
 
-export interface IBitterIocContext {
+export interface IBitterContext {
   bitCache: IBitCache
   factoryStore: IBitFactoryStore
 }

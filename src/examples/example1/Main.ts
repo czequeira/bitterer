@@ -1,8 +1,8 @@
-import { BitterIoc } from "../../core";
+import { Bitter } from "../../core";
 import { config } from "./config";
 import { Student } from "./Student";
 
-const bitter = new BitterIoc()
+const bitter = new Bitter()
 bitter.init(config)
 
 const student = bitter.getBit<Student>('student')

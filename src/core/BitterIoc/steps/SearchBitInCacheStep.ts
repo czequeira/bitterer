@@ -1,7 +1,7 @@
-import { IBitterIocContext, ISearchBitInCacheStep } from "../types";
+import { IBitterContext, ISearchBitInCacheStep } from "../types";
 
 export class SearchBitInCacheStep implements ISearchBitInCacheStep {
-  execute<T>(context: IBitterIocContext, name: string): T {
+  execute<T>(context: IBitterContext, name: string): T {
     return context.bitCache[name] as T
   }
 }

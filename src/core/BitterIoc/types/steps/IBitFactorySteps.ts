@@ -1,11 +1,11 @@
-import { IBitFactory, IBitterIocContext } from "../components"
+import { IBitFactory, IBitterContext } from "../components"
 
 export interface IStoreBitFactoryStep {
-  execute(context: IBitterIocContext, name: string, factory: IBitFactory<unknown>): void
+  execute(context: IBitterContext, name: string, factory: IBitFactory<unknown>): void
 }
 
 export interface IGetBitFactoryStep {
-  execute<T>(context: IBitterIocContext, name: string): IBitFactory<T>
+  execute<T>(context: IBitterContext, name: string): IBitFactory<T>
 }
 
 export interface ICreateBitStep {

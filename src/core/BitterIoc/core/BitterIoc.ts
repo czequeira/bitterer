@@ -8,12 +8,12 @@ import {
   StoreBitInCacheStep,
   VerifyMetadataBitStep,
 } from "../steps";
-import { IBitFactoryStore, IBitterIoc } from "../types";
-import { BitterIocContext } from "./BitterIocContext";
+import { IBitFactoryStore, IBitter } from "../types";
+import { BitterContext } from "./BitterContext";
 import { ScanForBitsFlow } from "../flows/ScanForBitsFlow";
 
-export class BitterIoc implements IBitterIoc {
-  private context = new BitterIocContext()
+export class Bitter implements IBitter {
+  private context = new BitterContext()
   private getBitFlow = new GetBitFlow(
     new CreateBitStep(),
     new SearchBitInCacheStep(),
@@ -27,10 +27,10 @@ export class BitterIoc implements IBitterIoc {
   )
 
   constructor() {
-    if (globalThis.__BITTER_IOC__) {
-      return globalThis.__BITTER_IOC__
+    if (globalThis.__BITTER__) {
+      return globalThis.__BITTER__
     }
-    globalThis.__BITTER_IOC__ = this
+    globalThis.__BITTER__ = this
   }
 
   init(bitFactoryStore: IBitFactoryStore): void {

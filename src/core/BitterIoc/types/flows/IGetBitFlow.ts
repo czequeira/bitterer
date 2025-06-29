@@ -1,8 +1,8 @@
-import { IBitterIocContext } from "../components"
+import { IBitterContext } from "../components"
 import { ICreateBitStep, IGetBitFactoryStep, ISearchBitInCacheStep, IStoreBitInCacheStep } from "../steps"
 
 export interface IGetBitFlow {
-  execute<T>(context: IBitterIocContext, name: string, namesInProcess?: string[]): T
+  execute<T>(context: IBitterContext, name: string, namesInProcess?: string[]): T
 
   searchBitInCacheStep: ISearchBitInCacheStep
   getBitFactoryStep: IGetBitFactoryStep

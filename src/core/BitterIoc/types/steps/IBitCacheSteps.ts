@@ -1,9 +1,9 @@
-import { IBitterIocContext } from "../components"
+import { IBitterContext } from "../components"
 
 export interface ISearchBitInCacheStep {
-  execute<T>(context: IBitterIocContext, name: string): T
+  execute<T>(context: IBitterContext, name: string): T
 }
 
 export interface IStoreBitInCacheStep {
-  execute(context: IBitterIocContext, name: string, bit: unknown): void
+  execute(context: IBitterContext, name: string, bit: unknown): void
 }
