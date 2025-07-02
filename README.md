@@ -2,9 +2,9 @@
 **Lightweight IoC Container for TypeScript**  
 *Inspired by Spring, optimized for modern TypeScript apps*
 
-[![npm version](https://img.shields.io/npm/v/bitter.svg)](https://www.npmjs.com/package/bitter)  
+[![npm version](https://img.shields.io/npm/v/bitterer.svg)](https://www.npmjs.com/package/bitterer)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
-[![Bundle Size](https://img.shields.io/bundlephobia/min/bitter)](https://bundlephobia.com/package/bitter)
+[![Bundle Size](https://img.shields.io/bundlephobia/min/bitterer)](https://bundlephobia.com/package/bitterer)
 
 ``` bash
 npm install bitterer reflect-metadata
@@ -209,6 +209,7 @@ Note: Remember to configure your tsconfig.json with:
 | 0.1.0   | Ciclo de Vida                       | 🔄 En Desarrollo |
 |         | - @PostConstruct                    |              |
 |         | - @PreDestroy                       |              |
+|         | Yaml configuration                  |              |
 | 0.2.0   | Perfiles de Entorno                 | ⏳ Planeado   |
 |         | - dev/prod/testing                  |              |
 |         | - Build optimizado                  |              |
@@ -228,8 +229,8 @@ class UIComponent {
 ```
 
 ### Long-Term Vision
-- Integración con Web Components
-- Soporte para estado global
+- Web components integration
+- Global state extensions
 - DevTools extension
 - Lazy loading nativo
 
@@ -241,7 +242,7 @@ npm install
 ```
 
 ## 📜 License
-MIT © [Your Name]
+MIT © Carlos Alberto Zequeira Sánchez
 
 ## ❓ Getting Help
 For bug reports and feature requests, please open an issue on GitHub.
