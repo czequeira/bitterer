@@ -194,6 +194,104 @@ Note: Remember to configure your tsconfig.json with:
 }
 ```
 
+### 🛠 Conditional Configuration in Bitterer  
+Define alternative implementations based on environment or conditions.
+
+#### 1. File Structure  
+```
+src/
+├── tools/
+│   ├── ProdTool.ts
+│   ├── DevTool.ts
+│   └── MockTool.ts
+├── services/
+│   └── WorkerService.ts
+└── config.yml
+```
+
+#### 2. Bit Implementations  
+``` typescript
+// tools/ProdTool.ts
+@Bit('prodTool')
+export class ProdTool implements Tool {
+  work() { console.log("Production mode active!"); }
+}
+```
+
+``` typescript
+// tools/DevTool.ts
+@Bit('devTool')
+export class DevTool implements Tool {
+  work() { console.log("Development mode"); }
+}
+```
+
+#### 3. YAML Configuration (config.yml)  
+
+``` yaml
+scan: true  # Auto-scan enabled
+bits:
+  tool:
+    implementations:
+      - name: prodTool
+        when:
+          allOf:
+            env: production
+            region: us-east
+      - name: devTool
+        when:
+          anyOf:
+            env: development
+            debug: true
+      - name: mockTool
+```
+
+#### 4. Service with Injection  
+
+``` typescript
+// services/WorkerService.ts
+@Bit('workerService')
+export class WorkerService {
+  constructor(
+    @Inject('tool') private tool: Tool
+  ) {}
+
+  run() {
+    this.tool.work();
+  }
+}
+```
+
+#### 5. Simplified Initialization  
+
+``` typescript
+// main.ts
+const bitter = new Bitter();
+const context = {
+  env: process.env.NODE_ENV,
+  debug: true
+};
+
+const file = await readFile('./config.yml', 'utf8')
+await bitter.importYaml(file, context);
+
+const worker = bitter.getBit<WorkerService>('workerService');
+worker.run();
+
+```
+
+#### 🧩 Behavior by Environment  
+| Context                | Injected Tool | Output                  |  
+|------------------------|---------------|-------------------------|  
+| `env: production`      | `prodTool`    | "Production mode active!" |  
+| `debug: true`          | `devTool`     | "Development mode"      |  
+| Other cases            | `mockTool`    | (Default implementation) |  
+
+#### ⚙️ Key Features  
+- `scan: true`: Enables automatic class scanning when loading config  
+- Type-safe resolution  
+- No code changes needed to switch implementations  
+
 ## 🛣 Roadmap (Browser-First)
 
 ### Current Version
@@ -209,7 +307,7 @@ Note: Remember to configure your tsconfig.json with:
 | 0.1.0   | Ciclo de Vida                       | 🔄 En Desarrollo |
 |         | - @PostConstruct                    |              |
 |         | - @PreDestroy                       |              |
-|         | Yaml configuration                  |              |
+|         | Yaml configuration                  | ✅              |
 | 0.2.0   | Perfiles de Entorno                 | ⏳ Planeado   |
 |         | - dev/prod/testing                  |              |
 |         | - Build optimizado                  |              |

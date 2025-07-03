@@ -1,0 +1,10 @@
+scan: true
+
+bits:
+  tool:
+    implementations:
+      - name: concreteToolA  # Opción A
+        when: 
+          anyOf:
+            env: prod
+      - name: concreteToolB  # Opción B (default)

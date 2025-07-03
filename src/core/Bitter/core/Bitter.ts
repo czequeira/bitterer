@@ -1,16 +1,17 @@
-import { GetBitFlow } from "../flows";
+import { GetBitFlow, ImportYamlFlow, ScanForBitsFlow } from "../flows";
 import {
+  CheckWhenConfigStep,
   CreateBitStep,
   GetBitFactoryStep,
+  ParseYamlStep,
   RegisterExportedClassBitStep,
   ScanFilesStep,
   SearchBitInCacheStep,
   StoreBitInCacheStep,
   VerifyMetadataBitStep,
 } from "../steps";
-import { IBitFactoryStore, IBitter } from "../types";
+import { IBitFactoryStore, IBitter, IKeyValue } from "../types";
 import { BitterContext } from "./BitterContext";
-import { ScanForBitsFlow } from "../flows/ScanForBitsFlow";
 
 export class Bitter implements IBitter {
   private context = new BitterContext()
@@ -20,10 +21,15 @@ export class Bitter implements IBitter {
     new StoreBitInCacheStep(),
     new GetBitFactoryStep(),
   )
-  private scanForBitsFlow: ScanForBitsFlow = new ScanForBitsFlow(
+  private scanForBitsFlow = new ScanForBitsFlow(
     new RegisterExportedClassBitStep(),
     new ScanFilesStep(),
     new VerifyMetadataBitStep(),
+  )
+  private importYamlFlow = new ImportYamlFlow(
+    new ParseYamlStep(),
+    new CheckWhenConfigStep(),
+    this.scanForBitsFlow,
   )
 
   constructor() {
@@ -53,5 +59,9 @@ export class Bitter implements IBitter {
 
   async scan(rootDir?: string): Promise<void> {
     return this.scanForBitsFlow.execute(rootDir)
+  }
+
+  async importYaml(file: string, config: IKeyValue = {}): Promise<void> {
+    return this.importYamlFlow.execute(this.context, file, config)
   }
 }

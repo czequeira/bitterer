@@ -1,9 +1,13 @@
+import { readFile } from "fs/promises";
 import { Bitter } from "../../core";
-import { config } from "./config";
 import { Person } from "./Person";
 
-const bitter = new Bitter()
-bitter.init(config)
+const run = async () => {
+  const bitter = new Bitter()
+  const file = await readFile('./config.yml', 'utf8')
+  await bitter.importYaml(file, {env: 'prod'})
 
-const chinese = bitter.getBit<Person>('chinese')
-chinese.work()
+  const chinese = bitter.getBit<Person>('chinese')
+  chinese.work()
+}
+run()
