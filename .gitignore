@@ -32,6 +32,8 @@ dist/
 build/
 *.tsbuildinfo
 
+src/examples/
+
 # Optional npm cache directory
 .npm
 
