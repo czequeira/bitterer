@@ -1,13 +1,13 @@
 import 'reflect-metadata'
 import { Bitter } from "../core";
-import { toLowerCase } from '../../helpers';
+import { toLowerCase } from '../helpers';
 
 export function Bit(
   name?: string,
   options?: { scope?: 'singleton' | 'prototype' }
 ): ClassDecorator {
   return (target: any) => {
-    const bitName = name || toLowerCase( target.name)
+    const bitName = name || toLowerCase(target.name)
 
     Reflect.defineMetadata('bit:config', {name: bitName}, target)
 
