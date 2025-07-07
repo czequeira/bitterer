@@ -22,8 +22,11 @@
     "reflect-metadata": "^0.2.2"
   },
   "scripts": {
+    "clean": "rm -rf dist/",
+    "prebuild": "npm run clean",
+    "build": "tsc --build --force",
+    "watch": "tsc --watch --preserveWatchOutput",
     "prepublishOnly": "npm run build",
-    "build": "tsc",
     "prepare": "npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
