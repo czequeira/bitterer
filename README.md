@@ -294,20 +294,18 @@ worker.run();
 
 ## 🛣 Roadmap (Browser-First)
 
-### Current Version
+### Short-Term Plans
 | Versión | Características          | Estado      |
 |---------|--------------------------|-------------|
 | 0.0.1   | DI Básico  | ✅ Lanzada   |
 |         | @Bit/@Inject             | ✅           |
 |         | Scopes (Singleton & Prototype)      | ✅           |
-
-### Short-Term Plans
-| Versión | Características                     | Estado       |
 |---------|-------------------------------------|--------------|
-| 0.1.0   | Ciclo de Vida                       | 🔄 En Desarrollo |
+| 0.1.0   | Ciclo de Vida                       |  ✅ |
 |         | - @PostConstruct                    |              |
 |         | - @PreDestroy                       |              |
 |         | Yaml configuration                  | ✅              |
+|---------|-------------------------------------|--------------|
 | 0.2.0   | Perfiles de Entorno                 | ⏳ Planeado   |
 |         | - dev/prod/testing                  |              |
 |         | - Build optimizado                  |              |

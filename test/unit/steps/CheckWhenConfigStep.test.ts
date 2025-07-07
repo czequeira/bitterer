@@ -16,4 +16,14 @@ describe('CheckWhenConfigStep', () => {
     const config = { allOf: { env: 'prod', region: 'us' } };
     expect(step.execute(config, context)).toBe(true);
   });
+
+  it('should handle undefined config', () => {
+    expect(step.execute(undefined, { env: 'prod' })).toBe(true);
+  });
+
+  it('should reject invalid conditions', () => {
+    const context = { env: 'prod' };
+    const config = { allOf: { env: 'dev' } };
+    expect(step.execute(config, context)).toBe(false);
+  });
 });

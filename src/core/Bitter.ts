@@ -2,6 +2,7 @@ import { GetBitFlow, ImportYamlFlow, ScanForBitsFlow } from "../flows";
 import {
   CheckWhenConfigStep,
   CreateBitStep,
+  DestroyBitStep,
   GetBitFactoryStep,
   ParseYamlStep,
   RegisterExportedClassBitStep,
@@ -14,6 +15,7 @@ import { IBitFactoryStore, IBitter, IKeyValue } from "../types";
 import { BitterContext } from "./BitterContext";
 
 export class Bitter implements IBitter {
+  private destroyBitStep = new DestroyBitStep()
   private context = new BitterContext()
   private getBitFlow = new GetBitFlow(
     new CreateBitStep(),
@@ -63,5 +65,10 @@ export class Bitter implements IBitter {
 
   async importYaml(file: string, config: IKeyValue = {}): Promise<void> {
     return this.importYamlFlow.execute(this.context, file, config)
+  }
+
+  shutdown() {
+    this.destroyBitStep.execute(this.context.bitCache)
+    delete globalThis.__BITTER__
   }
 }

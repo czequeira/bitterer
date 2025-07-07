@@ -1,31 +1,36 @@
 import {
   CreateBitStep,
   GetBitFactoryStep,
-  GetBitFlow,
-  IBitterContext,
   SearchBitInCacheStep,
   StoreBitInCacheStep,
-} from "../../../src";
+  GetBitFlow,
+} from '../../../src';
+import { IBitterContext } from '../../../src/types';
 
-describe('GetBitFlow', () => {
+describe('GetBitFlow Circular Dependencies', () => {
   let flow: GetBitFlow;
-  let mockContext: IBitterContext;
+  let context: IBitterContext;
 
   beforeEach(() => {
     flow = new GetBitFlow(
-    new CreateBitStep(),
-    new SearchBitInCacheStep(),
-    new StoreBitInCacheStep(),
-    new GetBitFactoryStep(),
+      new CreateBitStep(),
+      new SearchBitInCacheStep(),
+      new StoreBitInCacheStep(),
+      new GetBitFactoryStep(),
     );
-    mockContext = {
+    context = {
       bitCache: {},
-      factoryStore: {}
+      factoryStore: {},
     };
   });
 
-  it('should throw error for unregistered bit', () => {
-    expect(() => flow.execute(mockContext, 'unregistered'))
-      .toThrow('Bit not registered');
+  it('should throw circular dependency error', () => {
+    const context: IBitterContext = { factoryStore: {
+      'serviceA': { class: class {}, scope: 'singleton', args: [{ ref: 'serviceB', name: 'serviceA' }] },
+      'serviceB': { class: class {}, scope: 'singleton', args: [{ ref: 'serviceA', name:  'serviceB' }] }
+    }, bitCache: {} };
+    
+    expect(() => flow.execute(context, 'serviceA', ['serviceA']))
+      .toThrow('Circular dependency detected');
   });
 });
