@@ -1,4 +1,3 @@
-import { Bitter } from "../core";
 import { IBitterContext, ICheckWhenConfigStep, IImportYamlFlow, IKeyValue, IParseYamlStep, IScanForBitsFlow } from "../types";
 
 export class ImportYamlFlow implements IImportYamlFlow {
