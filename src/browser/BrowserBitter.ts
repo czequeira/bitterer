@@ -24,7 +24,6 @@ export class BrowserBitter implements IBitter {
 
   constructor() {
     if (globalThis.__BITTER__) {
-      console.log('si seguimos con esto aqui')
       return globalThis.__BITTER__
     }
     globalThis.__BITTER__ = this

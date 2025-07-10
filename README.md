@@ -94,6 +94,8 @@ main();
 |------------|--------------------------------------|
 | `@Bit()`   | Registers class as injectable component |
 | `@Inject()`| Injects dependency by name           |
+| `@PostConstruct()`| Execute method after bit is constructed           |
+| `@PreDestroy()`| Execute method when shutdown is called           |
 
 ### Bitter Container
 ``` typescript
@@ -101,6 +103,7 @@ class Bitter {
   scan(): Promise<void>;    // Scans project for @Bit classes
   getBit<T>(name: string): T; // Retrieves a dependency
   register(components: any): void; // Manual registration
+  shutdown(): void; // Destroy the singleton instance and call al @PreDestroy
 }
 ```
 ## 🧩 Examples
@@ -297,31 +300,71 @@ worker.run();
 ### Short-Term Plans
 | Versión | Características          | Estado      |
 |---------|--------------------------|-------------|
-| 0.0.1   | DI Básico  | ✅ Lanzada   |
-|         | @Bit/@Inject             | ✅           |
-|         | Scopes (Singleton & Prototype)      | ✅           |
-|---------|-------------------------------------|--------------|
-| 0.1.0   | Ciclo de Vida                       |  ✅ |
-|         | - @PostConstruct                    |              |
-|         | - @PreDestroy                       |              |
-|         | Yaml configuration                  | ✅              |
-|---------|-------------------------------------|--------------|
-| 0.2.0   | Perfiles de Entorno                 | ⏳ Planeado   |
-|         | - dev/prod/testing                  |              |
-|         | - Build optimizado                  |              |
+| 0.0.1   | basic IOC                | ✅ Done  |
+|         | @Bit/@Inject             | ✅          |
+|         | Scopes (Singleton & Prototype)| ✅     |
+| 0.1.0   | Lifecycle                |  ✅         |
+|         | - @PostConstruct         |   ✅        |
+|         | - @PreDestroy            |   ✅        |
+|         | Yaml configuration       |   ✅        |
+| 0.2.0   | **Browser compatibility**    | 🔄 WIP      |
+|         | **- Compatible IOC**         | 🔄          |
+|         | - - getBit (BROWSER)      |  ✅         |
+|         | - - scan (BROWSER)        | 🔄         |
+|         | - - YAML (BROWSER)        | 🔄         |
+|         | **- React Hooks**            | 🔄          |
+|         | - - useBitter            |  ✅          |
+|         | - - useBit            |  ✅         |
+| 0.3.0   | Better documentation      | ⏳ Planed   |
 
-### Browser-Specific Features
+### Browser-Specific Features (REACT + VITE)
 ``` typescript
-// Ejemplo futuro de uso
-@Bit()
-class UIComponent {
-  @Inject('config') private config;
+import "reflect-metadata"
+import { Bit } from "bitterer/browser";
 
-  @PostConstruct()
-  init() {
-    console.log('Montado en DOM');
+@Bit('calcService')
+export class CalcService {
+
+  add(a: number, b: number) {
+    return a + b
   }
 }
+```
+
+``` typescript
+import 'reflect-metadata'
+import { CalcService } from './CalcService'
+import { Bit, Inject } from 'bitterer/browser'
+
+@Bit('service')
+export class Service {
+  constructor(
+    @Inject('calcService') private calcService: CalcService
+  ) {}
+
+  sum(a: number, b: number) {
+    return this.calcService.add(a, b)
+  }
+}
+```
+
+``` tsx
+import { Service } from './Service'
+import { useBit } from 'bitterer/browser'
+
+function App() {
+  const service = useBit<Service>('service')
+
+  return (
+    <button onClick={() => {
+      console.log(service.sum(1, 2))
+    }}>
+      sum
+    </button>
+  )
+}
+
+export default App
 ```
 
 ### Long-Term Vision
