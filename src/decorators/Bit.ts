@@ -9,7 +9,7 @@ export function Bit(
   return (target: any) => {
     const bitName = name || toLowerCase(target.name)
 
-    Reflect.defineMetadata('bit:config', {name: bitName}, target)
+    const injections: {parameterIndex: number, name: string}[] = Reflect.getOwnMetadata("bit:inject", target) || [];
 
     const ioc = new Bitter()
 
@@ -17,8 +17,11 @@ export function Bit(
       [bitName]: {
         class: target,
         scope: options?.scope || 'singleton',
-        args: [],
+        args: injections.reverse().map(i => ({
+          name: i.name,
+          ref: i.name,
+        }))
       }
-    })
+    });
   };
 }

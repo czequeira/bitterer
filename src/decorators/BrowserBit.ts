@@ -17,7 +17,7 @@ export function Bit(
       [bitName]: {
         class: target,
         scope: options?.scope || 'singleton',
-        args: injections.map(i => ({
+        args: injections.reverse().map(i => ({
           name: i.name,
           ref: i.name,
         }))
