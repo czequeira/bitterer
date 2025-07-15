@@ -2,6 +2,8 @@
 **Lightweight IoC Container for TypeScript**  
 *Inspired by Spring, optimized for modern TypeScript apps*
 
+[![Docs](https://img.shields.io/badge/📖_Bitterer_Docs-FFA000?style=flat-square)](https://czequeira.github.io)
+<br>
 [![npm version](https://img.shields.io/npm/v/bitterer.svg)](https://www.npmjs.com/package/bitterer)  
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
 [![Bundle Size](https://img.shields.io/bundlephobia/min/bitterer)](https://bundlephobia.com/package/bitterer)

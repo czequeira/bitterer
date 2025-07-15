@@ -15,9 +15,9 @@
     "url": "https://github.com/czequeira/bitterer.git"
   },
   "bugs": {
-    "url": "https://github.com/czequeira/bitterer/issues"
+    "url": "https://github.com/czequeira/bitterer/issues/new?template=bug_report.md"
   },
-  "homepage": "https://github.com/czequeira/bitterer#readme",
+  "homepage": "https://czequeira.github.io",
   "license": "MIT",
   "author": "Rozendo",
   "type": "commonjs",
